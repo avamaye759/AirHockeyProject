@@ -25,9 +25,9 @@ namespace AirHockeyProject
         int player1Score = 0;
         int player2Score = 0;
 
-        int playerSpeed = 7;
-        int puckXSpeed = -4;
-        int puckYSpeed = 4;
+        int playerSpeed = 8;
+        int puckXSpeed = -5;
+        int puckYSpeed = 5;
 
         bool wDown = false;
         bool aDown = false;
@@ -38,10 +38,23 @@ namespace AirHockeyProject
         bool leftArrowDown = false;
         bool rightArrowDown = false;
 
-        SolidBrush p1Brush = new SolidBrush(Color.Blue);
-        SolidBrush p2Brush = new SolidBrush(Color.Red);
+        SolidBrush p1Brush = new SolidBrush(Color.Lime);
+        SolidBrush p2Brush = new SolidBrush(Color.DeepPink);
         SolidBrush puckBrush = new SolidBrush(Color.White);
         Pen outlinePen = new Pen(Color.LightSlateGray, 3);
+        Pen p1Pen = new Pen(Color.Lime, 3);
+        Pen p2Pen = new Pen(Color.DeepPink, 3);
+
+        int puckX;
+        int puckY;
+
+        int player1X;
+        int player1Y;
+
+        int player2X;
+        int player2Y;
+
+
         public Form1()
         {
             InitializeComponent();
@@ -111,11 +124,11 @@ namespace AirHockeyProject
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawRectangle(outlinePen, p1Net);
-            e.Graphics.DrawRectangle(outlinePen, p2Net);
+            e.Graphics.DrawRectangle(p1Pen, p1Net);
+            e.Graphics.DrawRectangle(p2Pen, p2Net);
             e.Graphics.DrawLine(outlinePen, 400, 0, 400, 500);
-            e.Graphics.DrawArc(outlinePen, -127, 105, 250, 250, 270, 180);
-            e.Graphics.DrawArc(outlinePen, 670, 105, 250, 250, -270, 180);
+            e.Graphics.DrawArc(p1Pen, -127, 105, 250, 250, 270, 180);
+            e.Graphics.DrawArc(p2Pen, 670, 105, 250, 250, -270, 180);
             e.Graphics.DrawRectangle(outlinePen, topBorder);
             e.Graphics.DrawRectangle(outlinePen, bottomBorder);
             e.Graphics.DrawRectangle(outlinePen, rightBorder);
@@ -128,73 +141,73 @@ namespace AirHockeyProject
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            int puckX = puck.X;
-            int puckY = puck.Y;
+            puckX = puck.X;
+            puckY = puck.Y;
 
-            int player1X = player1.X;
-            int player1Y = player1.Y;
+            player1X = player1.X;
+            player1Y = player1.Y;
 
-            int player2X = player2.X;
-            int player2Y = player2.Y;
-            
+            player2X = player2.X;
+            player2Y = player2.Y;
+
+            //player one collision borders
+            Rectangle paddle1Top = new Rectangle(player1.X, player1.Y, player1.Width, 1);
+            Rectangle paddle1Bottom = new Rectangle(player1.X, player1.Y + player1.Height, player1.Width, 1);
+            Rectangle paddle1Right = new Rectangle(player1.X + player1.Width, player1.Y, 1, player1.Height);
+            Rectangle paddle1Left = new Rectangle(player1.X, player1.Y, 1, player1.Height);
+
+            //player 2 collision borders
+            Rectangle paddle2Top = new Rectangle(player2.X, player2.Y, player2.Width, 1);
+            Rectangle paddle2Bottom = new Rectangle(player2.X, player2.Y + player2.Height, player2.Width, 1);
+            Rectangle paddle2Right = new Rectangle(player2.X + player2.Width, player1.Y, 1, player2.Height);
+            Rectangle paddle2Left = new Rectangle(player2.X, player2.Y, 1, player2.Height);
+
             //move puck 
             puck.X += puckXSpeed;
             puck.Y += puckYSpeed;
 
             //move player 1 
-            if (wDown == true && player1.Y > 0)
+            if (wDown == true && paddle1Top.Y > topBorder.Y + 3)
             {
                 player1.Y -= playerSpeed;
             }
 
-            if (aDown == true && player1.X > 0)
+            if (aDown == true && paddle1Left.X > leftBorder.X + 3)
             {
                 player1.X -= playerSpeed;
             }
 
-            if (sDown == true && player1.Y < this.Height - player1.Height)
+            if (sDown == true && paddle1Bottom.Y + paddle1Bottom.Height < bottomBorder.Y - 3)
             {
                 player1.Y += playerSpeed;
             }
 
-            if (dDown == true && player1.X < this.Width - player1.Width)
+            if (dDown == true && paddle1Right.X < 397)
             {
                 player1.X += playerSpeed;
             }
 
             //move player 2 
-            if (upArrowDown == true && player2.Y > 0)
+            if (upArrowDown == true && paddle2Top.Y > topBorder.Y + 3)
             {
                 player2.Y -= playerSpeed;
             }
 
-            if (downArrowDown == true && player2.Y < this.Height - player2.Height)
+            if (downArrowDown == true && paddle2Bottom.Y + paddle2Bottom.Height < bottomBorder.Y - 3)
             {
                 player2.Y += playerSpeed;
             }
 
-            if (leftArrowDown == true && player2.X > 0)
+            if (leftArrowDown == true && paddle2Left.X > 403)
             {
                 player2.X -= playerSpeed;
             }
 
-            if (rightArrowDown == true && player2.X < this.Width - player2.Width)
+            if (rightArrowDown == true && paddle2Right.X < rightBorder.X - 3)
             {
                 player2.X += playerSpeed;
             }
             
-            //player one collision borders
-            Rectangle paddle1Top = new Rectangle(player1.X, player1.Y, player1.Width, 1);
-            Rectangle paddle1Bottom = new Rectangle(player1.X, player1.Height, player1.Width, 1);
-            Rectangle paddle1Right = new Rectangle(player1.Width, player1.Y, 1, player1.Height);
-            Rectangle paddle1Left = new Rectangle(player1.X, player1.X, 1, player1.Height);
-
-            //player 2 collision borders
-            Rectangle paddle2Top = new Rectangle(player2.Left, player2.Left, player2.Width, 1);
-            Rectangle paddle2Bottom = new Rectangle(player2.Left, player2.Height, player2.Width, 1);
-            Rectangle paddle2Right = new Rectangle(player2.Width, player2.Right, 1, player2.Height);
-            Rectangle paddle2Left = new Rectangle(player2.Left, player2.Left, 1, player2.Height);
-
             //check if puck hits top/bottom wall
             if (puck.IntersectsWith(topBorder) || puck.IntersectsWith(bottomBorder))
             {
@@ -251,57 +264,57 @@ namespace AirHockeyProject
                 player2.Y = player2Y;
             }
 
-            //check if puck hits a net. If so, add one point to opposing player's score
+            //check if puck hits a net.If so, add one point to opposing player's score
             if (puck.IntersectsWith(p1Net))
             {
                 player2Score++;
-                //p2ScoreLabel.Text = $"{player2Score}";
+                p2ScoreLabel.Text = $"{player2Score}";
 
-                puck.X = 400;
-                puck.Y = 250;
+                puck.X = 390;
+                puck.Y = 225;
 
-                player1.X = 200;
-                player1.Y = 250;
+                player1.X = 150;
+                player1.Y = 210;
                 player2.X = 600;
-                player2.Y = 250;
+                player2.Y = 210;
 
                 if (player1Score == 5)
                 {
-                    //gameTimer.Enabled = false;
-                    //winLabel.Visible = true;
-                    //winLabel.Text = "Player 1 Wins!!";
+                    gameTimer.Enabled = false;
+                    winLabel.Visible = true;
+                    winLabel.Text = "PLAYER 1 WINS!!";
                 }
                 else if (player2Score == 5)
                 {
-                    //gameTimer.Enabled = false;
-                    //winLabel.Visible = true;
-                    //winLabel.Text = "Player 2 Wins!!";
+                    gameTimer.Enabled = false;
+                    winLabel.Visible = true;
+                    winLabel.Text = "PLAYER 2 WINS!!";
                 }
             }
             else if (puck.IntersectsWith(p2Net))
             {
                 player1Score++;
-                //p1ScoreLabel.Text = $"{player1Score}";
+                p1ScoreLabel.Text = $"{player1Score}";
 
-                puck.X = 400;
-                puck.Y = 250;
+                puck.X = 390;
+                puck.Y = 225;
 
-                player1.X = 200;
-                player1.Y = 250;
+                player1.X = 150;
+                player1.Y = 210;
                 player2.X = 600;
-                player2.Y = 250;
+                player2.Y = 210;
 
                 if (player1Score == 5)
                 {
-                    //gameTimer.Enabled = false;
-                    //winLabel.Visible = true;
-                    //winLabel.Text = "Player 1 Wins!!";
+                    gameTimer.Enabled = false;
+                    winLabel.Visible = true;
+                    winLabel.Text = "PLAYER 1 WINS!!";
                 }
                 else if (player2Score == 5)
                 {
-                    //gameTimer.Enabled = false;
-                    //winLabel.Visible = true;
-                    //winLabel.Text = "Player 2 Wins!!";
+                    gameTimer.Enabled = false;
+                    winLabel.Visible = true;
+                    winLabel.Text = "PLAYER 2 WINS!!";
                 }
             }
 
