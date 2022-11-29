@@ -54,6 +54,12 @@ namespace AirHockeyProject
         int player2X;
         int player2Y;
 
+        int p1LastX;
+        int p1LastY;
+
+        int p2LastX;
+        int p2LastY;
+
 
         public Form1()
         {
@@ -149,6 +155,12 @@ namespace AirHockeyProject
 
             player2X = player2.X;
             player2Y = player2.Y;
+
+            p1LastX = player1.X;
+            p1LastY = player1.Y;
+
+            p2LastX = player2.X;
+            p2LastY = player2.Y;
 
             //player one collision borders
             Rectangle paddle1Top = new Rectangle(player1.X, player1.Y, player1.Width, 1);
@@ -317,6 +329,59 @@ namespace AirHockeyProject
                     winLabel.Text = "PLAYER 2 WINS!!";
                 }
             }
+
+            //check intersections for errors
+            if (p1LastX == player1.X || p1LastY == player1.Y)
+            {
+                if (paddle2Top.IntersectsWith(puck))
+                {
+                    player2.Y++;
+                }
+
+                if (paddle2Bottom.IntersectsWith(puck))
+                {
+                    player2.Y--;
+                }
+
+                if (paddle2Right.IntersectsWith(puck))
+                {
+                    player2.X--;
+                }
+
+                if (paddle2Left.IntersectsWith(puck))
+                {
+                    player2.X++;
+                }
+            }
+
+            if (p2LastX == player2.X || p2LastY == player2.Y)
+            {
+                if (paddle1Top.IntersectsWith(puck))
+                {
+                    player1.Y++;
+                }
+
+                if (paddle1Bottom.IntersectsWith(puck))
+                {
+                    player1.Y--;
+                }
+
+                if (paddle1Right.IntersectsWith(puck))
+                {
+                    player1.X--;
+                }
+
+                if (paddle1Left.IntersectsWith(puck))
+                {
+                    player1.X++;
+                }
+            }
+
+            p1LastX = player1.X;
+            p1LastY = player1.Y;
+
+            p2LastX = player2.X;
+            p2LastY = player2.Y;
 
             Refresh();
         }
