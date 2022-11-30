@@ -44,6 +44,9 @@ namespace AirHockeyProject
         Pen outlinePen = new Pen(Color.AliceBlue, 3);
         Pen p1Pen = new Pen(Color.Lime, 3);
         Pen p2Pen = new Pen(Color.DeepPink, 3);
+        Pen puckOPen = new Pen(Color.DodgerBlue, 2);
+        Pen p1OPen = new Pen(Color.ForestGreen, 2);
+        Pen p2OPen = new Pen(Color.Crimson, 2);
 
         int puckXog;
         int puckYog;
@@ -136,6 +139,9 @@ namespace AirHockeyProject
             e.Graphics.FillEllipse(p1Brush, player1);
             e.Graphics.FillEllipse(p2Brush, player2);
             e.Graphics.FillEllipse(puckBrush, puck);
+            e.Graphics.DrawEllipse(puckOPen, puck);
+            e.Graphics.DrawEllipse(p1OPen, player1);
+            e.Graphics.DrawEllipse(p2OPen, player2);
         }
 
         private void gameTimer_Tick(object sender, EventArgs e)
