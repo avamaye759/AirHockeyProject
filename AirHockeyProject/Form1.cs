@@ -21,6 +21,10 @@ namespace AirHockeyProject
         Rectangle bottomBorder = new Rectangle(1, 458, 780, 1);
         Rectangle rightBorder = new Rectangle(781, 1, 1, 457);
         Rectangle leftBorder = new Rectangle(1, 1, 1, 457);
+        Rectangle l1circle = new Rectangle(100, 30, 100, 100);
+        Rectangle l2circle = new Rectangle(100, 330, 100, 100);
+        Rectangle r1circle = new Rectangle(590, 30, 100, 100);
+        Rectangle r2circle = new Rectangle(590, 330, 100, 100);
 
         int player1Score = 0;
         int player2Score = 0;
@@ -126,19 +130,39 @@ namespace AirHockeyProject
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            //nets
             e.Graphics.DrawRectangle(p1Pen, p1Net);
             e.Graphics.DrawRectangle(p2Pen, p2Net);
+            //arena markers
             e.Graphics.DrawLine(outlinePen, 400, 0, 400, 500);
             e.Graphics.DrawArc(p1Pen, -107, 125, 210, 210, 270, 190);
             e.Graphics.DrawArc(p2Pen, 680, 125, 210, 210, -270, 190);
+            e.Graphics.DrawEllipse(outlinePen, 355, 190, 90, 90);
+            //weird circle things
+            e.Graphics.DrawEllipse(p1Pen, l1circle);
+            e.Graphics.DrawEllipse(p1Pen, l2circle);
+            e.Graphics.DrawEllipse(p2Pen, r1circle);
+            e.Graphics.DrawEllipse(p2Pen, r2circle);
+            //crosses within circles - horizontal
+            e.Graphics.DrawLine(p1Pen, 150, 70, 150, 90);
+            e.Graphics.DrawLine(p1Pen, 150, 370, 150, 390);
+            e.Graphics.DrawLine(p2Pen, 640, 70, 640, 90);
+            e.Graphics.DrawLine(p2Pen, 640, 370, 640, 390);
+            //crosses within circles - vertical
+            e.Graphics.DrawLine(p1Pen, 140, 80, 160, 80);
+            e.Graphics.DrawLine(p1Pen, 140, 380, 160, 380);
+            e.Graphics.DrawLine(p2Pen, 630, 80, 650, 80);
+            e.Graphics.DrawLine(p2Pen, 630, 380, 650, 380);
+            //arena borders
             e.Graphics.DrawRectangle(outlinePen, topBorder);
             e.Graphics.DrawRectangle(outlinePen, bottomBorder);
             e.Graphics.DrawRectangle(outlinePen, rightBorder);
             e.Graphics.DrawRectangle(outlinePen, leftBorder);
-            e.Graphics.DrawEllipse(outlinePen, 355, 190, 90, 90);
+            //players and puck
             e.Graphics.FillEllipse(p1Brush, player1);
             e.Graphics.FillEllipse(p2Brush, player2);
             e.Graphics.FillEllipse(puckBrush, puck);
+            //player and puck outlines
             e.Graphics.DrawEllipse(puckOPen, puck);
             e.Graphics.DrawEllipse(p1OPen, player1);
             e.Graphics.DrawEllipse(p2OPen, player2);
