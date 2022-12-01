@@ -214,15 +214,23 @@ namespace AirHockeyProject
             Rectangle paddle2Left = new Rectangle(player2.X, player2.Y + 10, 1, player2.Height - 20);
 
             //check if puck hits top/bottom wall
-            if (puck.IntersectsWith(topBorder) || puck.IntersectsWith(bottomBorder))
+            if (puck.IntersectsWith(topBorder))
             {
-                puckYSpeed *= -1;
+                puckYSpeed = 7;
+            }
+            if (puck.IntersectsWith(bottomBorder))
+            {
+                puckYSpeed = -7;
             }
 
             //check if puck hits right/left wall
-            if (puck.IntersectsWith(rightBorder) || puck.IntersectsWith(leftBorder))
+            if (puck.IntersectsWith(rightBorder))
             {
-                puckXSpeed *= -1;
+                puckXSpeed = -7;
+            }
+            if (puck.IntersectsWith(leftBorder))
+            {
+                puckXSpeed = 7;
             }
 
             //check if puck  hits player 1
